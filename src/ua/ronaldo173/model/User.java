@@ -12,6 +12,16 @@ public class User {
     private Date dob;
     private String email;
 
+    public User() {
+    }
+
+    public User(String firstName, String lastName, Date dob, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.email = email;
+    }
+
     public int getUserId() {
         return userId;
     }

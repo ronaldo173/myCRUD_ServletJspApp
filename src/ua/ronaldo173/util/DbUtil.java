@@ -1,48 +1,47 @@
 package ua.ronaldo173.util;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 /**
  * Created by Santer on 16.02.2016.
  */
 public class DbUtil {
+
     private static Connection connection = null;
 
     public static Connection getConnection() {
-        if (connection != null) {
+        if (connection != null)
             return connection;
-        } else {
+        else {
             try {
-                Properties properties = new Properties();
+                Properties prop = new Properties();
                 InputStream inputStream = new FileInputStream("db.properties");
-                properties.load(inputStream);
-
-                String driver = properties.getProperty("driver");
-                String url = properties.getProperty("url");
-                String login = properties.getProperty("user");
-                String password = properties.getProperty("password");
-
-                System.out.println(driver + "\n" + url + "\n" +
-                        login + "\n" + password);
-
+                prop.load(inputStream);
+                String driver = prop.getProperty("driver");
+                String url = prop.getProperty("url");
+                String user = prop.getProperty("user");
+                String password = prop.getProperty("password");
                 Class.forName(driver);
-                connection = DriverManager.getConnection(url, login, password);
-            } catch (Exception e) {
-                System.out.println("no file prop");
+                connection = DriverManager.getConnection(url, user, password);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
             return connection;
         }
-    }
 
-    public static void main(String[] args) {
-        int arr[] = {1,2,3};
-        System.out.println(arr.length);
-        System.out.println(arr[arr.length-1]);
     }
 }
